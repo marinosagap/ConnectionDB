@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:12.1-alpine
+    container_name: marinos_db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: "marinos"             # New user
+      POSTGRES_PASSWORD: "marinos123!"     # New password
+      POSTGRES_DB: "marinos_db"            # New database
+    command:
+      - "postgres"
+      - "-c"
+      - "listen_addresses=*"
+      - "-c"
+      - "hba_file=/var/lib/postgresql/data/pg_hba.conf"
+    volumes:
+      - "postgres_data:/var/lib/postgresql/data"
+
+#  rating-service-agapiou:  # Replace 'app' with the actual name of your Java application service
+#    build: .
+#    ports:
+#      - "8080:8080"
+#    depends_on:
+#      - postgres
+#    environment:
+#      - SPRING_DATASOURCE_URL=jdbc:postgresql://marinos_db:5432/marinos_db
+#      - SPRING_DATASOURCE_USERNAME=marinos
+#      - SPRING_DATASOURCE_PASSWORD=marinos123!
+
+volumes:
+  postgres_data:
+    driver: local
+
